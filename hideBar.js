@@ -1,11 +1,25 @@
-/****************************************
-Author: Jia Gao
-Version: 1.0
-******************************************/
+/****************************************************
+@Author: Jia Gao(pw190500)
+DateModified: 2018-10-15
+version:1.1
+Purpose: Implement hide and show of the refinement panel and key filters on the left side of the web page
+		 Cookies are added to memorize the choice of the users
+
+Update: 1[CHG] icons are added
+*****************************************************/
 <style>
 .space{
 	display:inline-block;
 	margin-right:20px;
+	cursor: pointer;
+}
+
+.imgClass{
+	height:30px;
+	float:left;
+	margin-top:5px;
+	margin-right:5px;
+}
 }
 </style>
 <script>
@@ -17,7 +31,7 @@ var indexShow="";
 
 $(document).ready(function(){
 
-		if (Condition for English or French) //language check
+		if () //language check
 {
                 panelHide="Masquer le panneau de raffinement";
 				panelShow="Démontrer le panneau de raffinement";
@@ -60,6 +74,8 @@ $('#halfHideOrShow').click(function(){
 		$("#sideNavBox").hide();
 		$("#hideOrShow").text(panelShow);
 		$("#halfHideOrShow").hide();// if refinement panel is hidden, Key Filter should also be hidden 
+		$("#imgRight").attr('src',"show.png");
+		$("#imgLeft").hide();
 		setCookie("sth","Something",365);
 		//document.cookie = "sth=Something; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 	
@@ -70,6 +86,8 @@ $('#halfHideOrShow').click(function(){
 		$("#sideNavBox").show();
 		$("#hideOrShow").text(panelHide);
 		$("#halfHideOrShow").show();
+		$("#imgRight").attr('src',"hide.png");
+		$("#imgLeft").show();
 		deleteCookie();
 		//document.cookie = "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
 	
@@ -83,6 +101,7 @@ $('#halfHideOrShow').click(function(){
 		$("#idKeyFiltersContainer").hide();
 		$("#navresizerHorizontalBar").hide();
 		$("#halfHideOrShow").text(filterShow);
+		$("#imgLeft").attr('src',"show.png");
 		setCookie("other","Otherthing",365);
 	
 	
@@ -93,6 +112,7 @@ $('#halfHideOrShow').click(function(){
 		$("#idKeyFiltersContainer").show();
 		$("#navresizerHorizontalBar").show();
 		$("#halfHideOrShow").text(filterHide);
+		$("#imgLeft").attr('src',"hide.png");
 		deleteOnlyFilter();
 	
 	
@@ -100,11 +120,12 @@ $('#halfHideOrShow').click(function(){
 
 
 //use for secend time log in to the page or more
-	function hideWithoutCookie(){
+	function hideWithCookie(){
 		$("#sideNavBox").hide();
 		$("#hideOrShow").text(panelShow);
-		$("#halfHideOrShow").text(filterShow);
 		$("#halfHideOrShow").hide();
+		$("#imgLeft").hide();
+		
 	
 }
 
@@ -112,11 +133,12 @@ $('#halfHideOrShow').click(function(){
 
 
 //use for secend time log in to the page or more
-	function halfHideWithoutCookie(){
+	function halfhideWithCookie(){
 		$("#idKeyFiltersContainer").hide();
 		$("#navresizerHorizontalBar").hide();
 		$("#halfHideOrShow").text(filterShow);
 		$("#halfHideOrShow").show();
+		$("#imgLeft").show();
 	
 }
 
@@ -129,7 +151,7 @@ $('#halfHideOrShow').click(function(){
 	if (x==null||"")
 	{
 		x="";
-		$("#QCB1 ul:first").append('<li class='+"space"+'><p id='+"hideOrShow"+'>'+
+		$("#QCB1 ul:first").append('<li class="space"><img class="imgClass" id="imgRight" src="hide.png"><p id="hideOrShow">'+
 		panelHide+'</p></li>');
 		
 		//alert (x);
@@ -137,9 +159,9 @@ $('#halfHideOrShow').click(function(){
 	else if (x!="") {
 	
 		x="sth="+x;
-		$("#QCB1 ul:first").append('  <li class='+"space"+'><p id='+"hideOrShow"+'>'+
+		$("#QCB1 ul:first").append('<li class="space"><img class="imgClass" id="imgRight" src="show.png"><p id="hideOrShow">'+
 		panelShow+'</p></li>');
-		hideWithoutCookie();
+		hideWithCookie();
 		//alert (x);
 }
 
@@ -148,22 +170,24 @@ $('#halfHideOrShow').click(function(){
 
 	// Cookie check for Key Filters
 	function checkCookies(){
-		var y=getCookie("other");
+		var y=getCookie("other");	
+		
 		if (y==null||"")
-		{
-			y="";
-		 	$("#QCB1 ul:first").append('<li class='+"space"+'><p id='+"halfHideOrShow"+'>'+
+		{	
+			y="";			
+		 	$("#QCB1 ul:first").append('<li class="space"><img class="imgClass" id="imgLeft" src="hide.png"><p id="halfHideOrShow">'+
 			filterHide+'</p></li>');
+			
 		
 			//alert (x);
 }
 		else if (y!="") {
-	
+			
 			y="other="+y;
-
-			$("#QCB1 ul:first").append('<li class='+"space"+'><p id='+"halfHideOrShow"+'>'+
+			
+			$("#QCB1 ul:first").append('<li class="space"><img class="imgClass" id="imgLeft" src="show.png"><p id="halfHideOrShow">'+
 			filterShow+'</p></li>');
-			halfHideWithoutCookie();
+			halfhideWithCookie();
 			//alert (y);
 }
 	
